@@ -1,0 +1,70 @@
+{
+  "name": "mui-draggable-treeview",
+  "version": "1.0.0",
+  "description": "React Treeview component built on Material-UI with drag and drop features",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gorkemcnr/mui-draggable-treeview.git"
+  },
+  "keywords": [
+    "treeview",
+    "react",
+    "material",
+    "material-ui",
+    "draggable",
+    "draganddrop",
+    "drag",
+    "drop"
+  ],
+  "author": "Gorkem Cinar <gorkemcnr@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gorkemcnr/mui-draggable-treeview/issues"
+  },
+  "homepage": "https://github.com/gorkemcnr/mui-draggable-treeview#readme",
+  "dependencies": {
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@material-ui/core": "^4.0.0",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/icons": "^4.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.2",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "prettier": "^2.1.2",
+    "rollup": "^1.29.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3"
+  }
+}
