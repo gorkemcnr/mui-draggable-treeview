@@ -1,13 +1,12 @@
 # MUI-Draggable-TreeView - Treeview for Material-UI
-MUI-Draggable-TreeView is a React Treeview component built on Material-UI with "drag & drop" and ordering functionalities to an existing 
-Material-UI TreeView component
+MUI-Draggable-TreeView is a React Treeview component built on Material-UI TreeView Component with "drag & drop" and ordering functionalities.
 
 # Table of contents
 * [Install](#install)
 * [Demo](#demo)
 * [Usage](#usage)
-* [License](#licence)
-
+* [API](#api)
+* [License](#license)
 
 ## Install
 
@@ -74,6 +73,31 @@ export default function TreeViewExample() {
   return <MuiDraggableTreeView tree={data} enableDragAndDrop={true} />;
 }
 ```
+## API
+
+#### Props
+|Name|Type|Default|Description
+|:--:|:-----|:-----|
+|**`tree`**|TreeNode||Treeview Data (You will find more details at below)
+|**`enableDragAndDrop`**|boolean|false|Enable/Disable "drag & drop" and ordering functionalities
+
+#### Event Handlers
+|Name|Type|Parameters|ReturnType|Description
+|:--:|:-----|:-----|
+|**`onNodeDragOver?`**|function|(sourceNode: TreeNode, destinationNode: TreeNode)|boolean|Gives control to allow drag over for a destination node. To allow drag over, return true
+|**`onNodeDrop?`**|function|(tree: TreeNode)|void|Event handler after drop on a Node that passes updated tree data
+|**`onNodeReOrderOver?`**|function|(sourceNode: TreeNode, destinationNode: TreeNode, isBeforeDestinationNode: boolean)|boolean|Gives control to allow reorder before or after destination node with isBeforeDestinationNode parameter. To allow reordering, return true
+|**`onNodeReOrder?`**|function|(tree: TreeNode)|void|Event handler after reordering before or after destination Node that passes updated tree data
+
+#### TreeNode
+|Name|Type|Default|Description
+|:--:|:-----|:-----|
+|**`id`**|number||Unique number
+|**`name`**|string||Label of TreeNode item
+|**`order?`**|number|undefined|Order of TreeNode item
+|**`data?`**|any|undefined|TreeNode data when it is need
+|**`icon?`**|React.ElementType<SvgIconProps>|undefined|Icon of TreeNode item
+|**`children?`**|TreeNode[]|undefined|Children of TreeNode
 
 ## License
 The files included in this repository are licensed under the MIT license.
