@@ -77,13 +77,13 @@ export default function TreeViewExample() {
 
 #### Props
 |Name|Type|Default|Description
-|:--:|:-----|:-----|
+|:--:|:--|:---|:-----|
 |**`tree`**|TreeNode||Treeview Data (You will find more details at below)
 |**`enableDragAndDrop`**|boolean|false|Enable/Disable "drag & drop" and ordering functionalities
 
 #### Event Handlers
 |Name|Type|Parameters|ReturnType|Description
-|:--:|:-----|:-----|
+|:--:|:---|:----|:--|:-----|
 |**`onNodeDragOver?`**|function|(sourceNode: TreeNode, destinationNode: TreeNode)|boolean|Gives control to allow drag over for a destination node. To allow drag over, return true
 |**`onNodeDrop?`**|function|(tree: TreeNode)|void|Event handler after drop on a Node that passes updated tree data
 |**`onNodeReOrderOver?`**|function|(sourceNode: TreeNode, destinationNode: TreeNode, isBeforeDestinationNode: boolean)|boolean|Gives control to allow reorder before or after destination node with isBeforeDestinationNode parameter. To allow reordering, return true
@@ -91,7 +91,7 @@ export default function TreeViewExample() {
 
 #### TreeNode
 |Name|Type|Default|Description
-|:--:|:-----|:-----|
+|:--:|:--|:-----|:-----|
 |**`id`**|number||Unique number
 |**`name`**|string||Label of TreeNode item
 |**`order?`**|number|undefined|Order of TreeNode item
