@@ -17,7 +17,7 @@ MUI-Draggable-TreeView is a React Treeview component built on Material-UI TreeVi
 You need to install `@material-ui/core`, `@material-ui/lab` and `@material-ui/icons`
 
 ## Demo
-[![Edit react-to-print](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mui-draggable-treeview-cjc5e)
+[![Edit react-to-print](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mui-draggable-treeview-uqm76)
 
 Browse live demo
 
@@ -27,42 +27,43 @@ Browse live demo
 import { MuiDraggableTreeView, TreeNode } from "mui-draggable-treeview";
 
 export default function TreeViewExample() {
+  
   const data: TreeNode = {
-    id: 1,
+    id: "1",
     name: "Cars",
     children: [
       {
-        id: 2,
+        id: "2",
         name: "Sport Cars",
         children: [
           {
-            id: 24,
+            id: "24",
             name: "Porsche"
           },
           {
-            id: 25,
+            id: "25",
             name: "Ferrari"
           },
           {
-            id: 26,
+            id: "26",
             name: "McLaren"
           }
         ]
       },
       {
-        id: 3,
+        id: "3",
         name: "Classic Cars",
         children: [
           {
-            id: 34,
+            id: "34",
             name: "1957 Corvette"
           },
           {
-            id: 35,
+            id: "35",
             name: "Volkswagen Beetle"
           },
           {
-            id: 36,
+            id: "36",
             name: "Bentley"
           }
         ]
