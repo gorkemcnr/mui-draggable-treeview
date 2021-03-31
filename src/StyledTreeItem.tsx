@@ -1,27 +1,23 @@
 import { createStyles, makeStyles, SvgIconProps, Theme, Typography } from "@material-ui/core";
 import { TreeItem, TreeItemProps } from "@material-ui/lab";
 import React from "react";
-import { DraggedNode } from "./constants";
-import { DraggedTreeNode } from "./types/draggedTreeNode";
 import { TreeNode } from "./types/treeNode";
 
 type StyledTreeItemProps = TreeItemProps & {
   labelIcon?: React.ElementType<SvgIconProps>;
+  labelIconUrl?: string;
   labelInfo?: string;
   labelText: string;
+  isExpanded: boolean;
   depth: number;
   node: TreeNode;
+  validateDragOver: (isBeforeDestinationNode: boolean) => boolean;
   onNodeReOrder?: (ev: React.DragEvent<HTMLDivElement>, isBeforeDestinationNode: boolean) => void;
-  onNodeReOrderOver?: (
-    sourceNode: TreeNode,
-    destinationNode: TreeNode,
-    isBeforeDestinationNode: boolean
-  ) => boolean;
 };
 
 const StyledTreeItem: React.FC<StyledTreeItemProps> = (props: StyledTreeItemProps) => {
   const classes = useTreeItemStyles();
-  const { labelText, labelIcon: LabelIcon, labelInfo, ...other } = props;
+  const { labelText, labelIcon: LabelIcon, labelInfo, labelIconUrl, ...other } = props;
 
   const handleDragOver = (
     ev: React.DragEvent<HTMLDivElement>,
@@ -29,24 +25,7 @@ const StyledTreeItem: React.FC<StyledTreeItemProps> = (props: StyledTreeItemProp
   ) => {
     ev.stopPropagation();
 
-    if (!ev.dataTransfer.getData(DraggedNode)) return;
-
-    const draggedTreeNode = JSON.parse(ev.dataTransfer.getData(DraggedNode)) as DraggedTreeNode;
-
-    if (
-      draggedTreeNode.node.id.toString() === props.nodeId ||
-      (draggedTreeNode.parentNode && draggedTreeNode.parentNode.id.toString() === props.nodeId) ||
-      (draggedTreeNode.node.children &&
-        draggedTreeNode.node.children.length > 0 &&
-        draggedTreeNode.depth < props.depth)
-    )
-      return;
-
-    if (
-      props.onNodeReOrderOver &&
-      !props.onNodeReOrderOver(draggedTreeNode.node, props.node, isBeforeDestinationNode)
-    )
-      return;
+    if (!props.validateDragOver(isBeforeDestinationNode)) return;
 
     ev.preventDefault();
     ev.currentTarget.style.height = "30px";
@@ -72,10 +51,23 @@ const StyledTreeItem: React.FC<StyledTreeItemProps> = (props: StyledTreeItemProp
     ev.currentTarget.style.borderWidth = "0px";
   };
 
-  return (
-    <TreeItem
-      label={
-        <>
+  const iconContainerStyle =
+    props.node.children && props.node.children.length > 0
+      ? classes.iconContainer
+      : classes.hiddenIconContainer;
+
+  const labelStyle = !(labelIconUrl || LabelIcon) ? classes.label : classes.labelWithIcon;
+
+  const renderLabel = () => {
+    let labelRootStyle =
+      props.node.children && props.node.children.length > 0
+        ? classes.labelRootParent
+        : classes.labelRootChild;
+    labelRootStyle += ` ${props.node.disabled ? classes.disabled : ""}`;
+
+    return (
+      <>
+        {props.depth !== 0 && (
           <div
             onDrop={(ev) => handleOrderChange(ev, true)}
             onDragOver={(ev) => handleDragOver(ev, true)}
@@ -87,17 +79,23 @@ const StyledTreeItem: React.FC<StyledTreeItemProps> = (props: StyledTreeItemProp
               backgroundColor: "transparent !important",
             }}
           />
-          <div className={classes.labelRoot} draggable={false}>
-            {LabelIcon && <LabelIcon color="inherit" className={classes.labelIcon} />}
-            <Typography variant="body2" className={classes.labelText}>
-              {labelText}
+        )}
+        <div className={labelRootStyle} draggable={false}>
+          {(labelIconUrl || LabelIcon) && (
+            <div className={classes.labelIcon}>
+              {LabelIcon ? <LabelIcon color="inherit" /> : <img src={labelIconUrl} alt="image" />}
+            </div>
+          )}
+          <Typography variant="body2" className={classes.labelText}>
+            {labelText}
+          </Typography>
+          {labelInfo && (
+            <Typography variant="caption" color="inherit">
+              {labelInfo}
             </Typography>
-            {labelInfo && (
-              <Typography variant="caption" color="inherit">
-                {labelInfo}
-              </Typography>
-            )}
-          </div>
+          )}
+        </div>
+        {!props.isExpanded && (
           <div
             onDrop={(ev) => handleOrderChange(ev, false)}
             onDragOver={(ev) => handleDragOver(ev, false)}
@@ -109,12 +107,22 @@ const StyledTreeItem: React.FC<StyledTreeItemProps> = (props: StyledTreeItemProp
               backgroundColor: "transparent !important",
             }}
           />
-        </>
-      }
+        )}
+      </>
+    );
+  };
+
+  return (
+    <TreeItem
+      label={renderLabel()}
+      key={`${props.nodeId}_treeItem`}
       classes={{
         root: classes.root,
         content: classes.content,
-        label: classes.label,
+        label: labelStyle,
+        iconContainer: iconContainerStyle,
+        group: classes.group,
+        expanded: classes.expanded,
       }}
       {...other}
     />
@@ -128,46 +136,74 @@ const useTreeItemStyles = makeStyles((theme: Theme) =>
     root: {
       color: theme.palette.text.secondary,
       "&:focus > $content": {
-        backgroundColor: `var(--tree-view-bg-color, ${theme.palette.grey[400]})`,
         color: "var(--tree-view-color)",
-        borderTopRightRadius: theme.spacing(2),
-        borderBottomRightRadius: theme.spacing(2),
       },
       "&:focus > $content $label, &:hover > $content $label, &$selected > $content $label": {
         backgroundColor: "transparent",
       },
+      "&:last-child": {
+        borderBottom: "0px solid rgb(0, 94, 184)",
+      },
+      borderBottom: "1px solid rgb(0, 94, 184)",
+      marginBottom: "10px",
+    },
+    disabled: {
+      opacity: "0.5",
+    },
+    group: {
+      marginLeft: "23px",
+    },
+    // eslint-disable-next-line prettier/prettier
+    expanded: {
     },
     content: {
       color: theme.palette.text.secondary,
-      borderTopRightRadius: theme.spacing(2),
-      borderBottomRightRadius: theme.spacing(2),
       paddingRight: theme.spacing(1),
       fontWeight: theme.typography.fontWeightMedium,
       "$expanded > &": {
         fontWeight: theme.typography.fontWeightRegular,
+        borderBottom: "2px solid rgb(0, 94, 184)",
+        paddingBottom: "10px",
       },
-      "&:hover": {
-        backgroundColor: theme.palette.action.hover,
-      },
+      alignItems: "baseline",
+      marginBottom: "10px",
     },
     label: {
       fontWeight: "inherit",
       color: "inherit",
       paddingLeft: "0px !important",
-      backgroundColor: "transparent !important",
+      bottom: "3px",
     },
-    labelRoot: {
+    labelWithIcon: {
+      fontWeight: "inherit",
+      color: "inherit",
+      paddingLeft: "0px !important",
+      top: "1px",
+    },
+    labelRootParent: {
       display: "flex",
       alignItems: "center",
-      padding: theme.spacing(0.5, 0),
+      padding: "0 0 4px 0",
+      marginLeft: "3px",
+    },
+    labelRootChild: {
+      display: "flex",
+      alignItems: "center",
+      padding: "0 0 4px 0",
     },
     labelIcon: {
-      marginRight: theme.spacing(1),
+      marginRight: "5px",
     },
     labelText: {
       fontWeight: "inherit",
       flexGrow: 1,
-      marginLeft: "5px",
+    },
+    iconContainer: {
+      width: "15px",
+      marginLeft: "1px",
+    },
+    hiddenIconContainer: {
+      display: "none",
     },
   })
 );

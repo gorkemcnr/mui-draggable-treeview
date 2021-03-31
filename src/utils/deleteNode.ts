@@ -1,6 +1,6 @@
 import { TreeNode } from "../types/treeNode";
 
-export const deleteNode = (node: TreeNode, sourceNodeId: number, parentNodeId: number): boolean => {
+export const deleteNode = (node: TreeNode, sourceNodeId: string, parentNodeId: string): boolean => {
   if (node.id === parentNodeId) {
     node.children = node.children?.filter((x) => x.id !== sourceNodeId);
     return true;

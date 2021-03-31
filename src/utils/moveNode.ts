@@ -3,7 +3,7 @@ import { TreeNode } from "../types/treeNode";
 export const moveNode = (
   node: TreeNode,
   sourceNode: TreeNode,
-  destinationNodeId: number
+  destinationNodeId: string
 ): boolean => {
   if (node.id === destinationNodeId) {
     if (!node.children) node.children = [];

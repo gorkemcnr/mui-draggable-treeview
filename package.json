@@ -1,6 +1,6 @@
 {
   "name": "mui-draggable-treeview",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React Treeview component built on Material-UI with drag and drop features",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -35,11 +35,14 @@
   "dependencies": {
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.3",
     "@material-ui/core": "^4.0.0",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/icons": "^4.0.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "styled-components": "^5.2.0",
+    "immutable": "^4.0.0-rc.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
