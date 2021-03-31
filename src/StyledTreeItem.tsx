@@ -141,10 +141,6 @@ const useTreeItemStyles = makeStyles((theme: Theme) =>
       "&:focus > $content $label, &:hover > $content $label, &$selected > $content $label": {
         backgroundColor: "transparent",
       },
-      "&:last-child": {
-        borderBottom: "0px solid rgb(0, 94, 184)",
-      },
-      borderBottom: "1px solid rgb(0, 94, 184)",
       marginBottom: "10px",
     },
     disabled: {
@@ -162,7 +158,6 @@ const useTreeItemStyles = makeStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightMedium,
       "$expanded > &": {
         fontWeight: theme.typography.fontWeightRegular,
-        borderBottom: "2px solid rgb(0, 94, 184)",
         paddingBottom: "10px",
       },
       alignItems: "baseline",
